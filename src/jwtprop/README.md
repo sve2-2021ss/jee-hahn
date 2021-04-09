@@ -4,6 +4,19 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
+### JWT RBAC (Json Web Token - Role Based Access Control)
+The Microprofile JWT RBAC specification requires, that JWT's are signed with the RSA-256 
+signature algorithm. This requires a RSA public key pair. The secured REST endpoint needs 
+access to the public cey, which is needed to verify the JWT sent with each request.
+This is done in application.properties by the setting: mp.jwt.verify.publickey.location=publicKey.pem 
+
+### SmallRye Jwt
+SmallRye is a library for implementing the Microprofile JWT RBAC. It deals with the decryption 
+and verification of the JWT token and parsing it into a JsonWebToken implementation.
+
+SmallRye also provide an API to generate JWT-Tokens. Therefore the private key is needed 
+and it's location must be set in application.properties: smallrye.jwt.sign.key-location
+
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
