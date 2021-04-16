@@ -151,9 +151,8 @@ public class UserLogicImpl implements UserLogic {
 
         return Jwt
                 .issuer("https://sve2.jwt.com/issuer")
-                .upn(user.getFirstName())
+                .upn(user.getFirstName() + " " + user.getLastName())
                 .groups(roles)
-                .claim(Claims.nickname, "Andi")
                 .claim(Claims.given_name, user.getFirstName())
                 .claim(Claims.family_name, user.getLastName())
                 .sign();
