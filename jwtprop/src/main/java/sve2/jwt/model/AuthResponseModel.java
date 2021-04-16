@@ -1,9 +1,9 @@
-package sve2.jwt.models;
+package sve2.jwt.model;
 
-public class AuthResponse {
-    public String token;
+public class AuthResponseModel {
+    private String token;
 
-    public AuthResponse(String token) {
+    public AuthResponseModel(String token) {
         this.token = token;
     }
 

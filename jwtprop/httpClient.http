@@ -1,0 +1,87 @@
+@baseUrl = http://localhost:8080
+
+###
+# @name initializeDatabase
+GET {{baseUrl}}/init
+
+###
+# @name createUser
+PUT {{baseUrl}}/users
+Content-Type: application/json
+
+{
+    "firstName": "Andreas",
+    "lastName": "Hahn",
+    "username": "myuser",
+    "password": "myuser"
+}
+
+###
+# @name createAdmin
+PUT {{baseUrl}}/users/admin
+Content-Type: application/json
+
+{
+    "firstName": "Andreas Admin",
+    "lastName": "Hahn",
+    "username": "myadmin",
+    "password": "myadmin"
+}
+
+###
+# @name getAllRoles
+GET {{baseUrl}}/roles
+Content-Type: application/json
+
+###
+# @name addRoleToUser
+POST {{baseUrl}}/users/2/role/3
+Content-Type: application/json
+
+###
+# @name authenticate
+POST {{baseUrl}}/users/authenticate
+Content-Type: application/json
+
+{
+    "username": "user",
+    "password": "user"
+}
+
+@authToken = {{authenticate.response.body.token}}
+
+###
+GET {{baseUrl}}/movies
+Authorization: Bearer {{authToken}}
+
+###
+GET {{baseUrl}}/movies/8
+Authorization: Bearer {{authToken}}
+
+###
+# @name CreateNewMovie
+POST {{baseUrl}}/movies
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "name": "Moviename",
+    "releaseYear": "2000",
+    "rating": "10",
+    "productionCountry": "Austria",
+    "length": "111"
+}
+
+###
+# @name UpdateMovie
+PUT {{baseUrl}}/movies/8
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "name": "MovienameUpdated",
+    "releaseYear": "2222",
+    "rating": "8",
+    "productionCountry": "Germany",
+    "length": "222"
+}
