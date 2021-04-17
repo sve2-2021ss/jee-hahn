@@ -55,6 +55,7 @@ string token = base64urlEncoding(header) + '.' + base64urlEncoding(payload) + '.
 The focus of the specification is the definition and the required format of the JWT's. 
 
 https://www.eclipse.org/community/eclipse_newsletter/2017/september/article2.php
+
 https://github.com/eclipse/microprofile-jwt-auth
 
 The specification defines the requirements for an JWT, which is issued by any other party.
@@ -96,47 +97,83 @@ mp.jwt.verify.publickey.location=META-INF/resources/publicKey.pem
 mp.jwt.verify.issuer=https://sve2.jwt.com/issuer
 ```
 
-## Demo Application Architecture
+## Application Architecture
+
+Overview of the application architecture:
+
+![Picture application architecture](https://github.com/sve2-2021ss/jee-hahn/blob/master/doc/architecture.png)
+
+#### Http-Client:
+A http-client is required to use the REST-Service. This can be postman or any other tool like VSCode (with REST-Client extension) or 
+integrated http-client in IntelliJ.
+
+The "/init" endpoint can be used to initialize the database (basic user, admin user, movies),
+Created user credentials:
+- basic user: "user", password: "user" ("user"-role is assigned)
+- admin user: "admin", password: "admin" ("user" and "admin"-role is assigned)
+
+By passing user credentials (username + password) to the user/authenticate endpoint, a user can be authenticated and retrieves a signed JSON web token.
+This token can be used for requests to the "/movies" endpoint. The token must be set in the "authorization"-header with the format: "Bearer <token>".
+
+Read-operations on the "/movies"-endpoint requires the "user"-role/claim (GET /movies && GET /movies/{id})
+Write-operations on the "/movies"-endpoint requires the "admin"-role/claim (POST /movies && PUT /movies/{id})
+
+#### REST-Service:
+Contains the REST-endpoints, with business logic and databae access.
+
+#### Database:
+
+In the database the users are persisted, with their role assignments.
+In a separate table the movies are stored.
+
+![Picture application architecture](https://github.com/sve2-2021ss/jee-hahn/blob/master/doc/database_model.png)
 
 ## Running the application in dev mode
 
-You can run the application in dev mode that enables live coding using:
+First you need to ensure this line is activated in appsettings.properties:
+```
+quarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/jwt-db
+```
+
+Afterwards you need to start postgres database in a docker container:
+```shell script
+docker run --name jwt-db -e POSTGRES_USER=jwt -e POSTGRES_PASSWORD=jwt -e POSTGRES_DB=jwt-db --publish 5432:5432 -d postgres
+```
+
+Then you can run the application in dev mode that enables live coding using:
 
 ```shell script
 ./mvnw compile quarkus:dev
 ```
 
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./mvnw package
-```
-
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory. Be aware that it’s not an _über-jar_ as
-the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
 ## Creating a native executable
 
-You can create a native executable using:
+You can create a native executable using this command:
 
 ```shell script
-./mvnw package -Pnative
+./mvnw package -Pnative -D"quarkus.native.container-build=true"
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+## Running the application in docker containers
+
+Requirement: native executable is created
+
+Ensure this line is activated in appsettings.properties:
+```
+quarkus.datasource.jdbc.url=jdbc:postgresql://jwt-db:5432/jwt-db
+```
+
+Build docker container:
 
 ```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
+docker build -f Dockerfile.native -t jwt-api .
 ```
 
-You can then execute your native executable with: `./target/jwtprop-1.0-SNAPSHOT-runner`
+Build and run:
+
+```shell script
+docker-compose build
+docker-compose up
+```
+
+Application is now running on localhost port 8080

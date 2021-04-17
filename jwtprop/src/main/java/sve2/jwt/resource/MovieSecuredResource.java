@@ -15,7 +15,7 @@ import sve2.jwt.model.MovieModel;
 
 @RequestScoped
 @Path("/movies")
-public class MovieResource {
+public class MovieSecuredResource {
 
     @Inject
     MovieLogic movieLogic;
