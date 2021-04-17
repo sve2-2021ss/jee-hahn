@@ -1,0 +1,89 @@
+###
+# @name initializeDatabase
+GET http://localhost:8080/init
+
+###
+# @name createUser
+PUT http://localhost:8080/users
+Content-Type: application/json
+
+{
+    "firstName": "Andreas",
+    "lastName": "Hahn",
+    "username": "myuser",
+    "password": "myuser"
+}
+
+###
+# @name createAdmin
+PUT http://localhost:8080/users/admin
+Content-Type: application/json
+
+{
+    "firstName": "Andreas Admin",
+    "lastName": "Hahn",
+    "username": "myadmin",
+    "password": "myadmin"
+}
+
+###
+# @name getAllRoles
+GET http://localhost:8080/roles
+Content-Type: application/json
+
+###
+# @name addRoleToUser
+POST http://localhost:8080/users/2/role/3
+Content-Type: application/json
+
+###
+# @name authenticate
+POST http://localhost:8080/users/authenticate
+Content-Type: application/json
+
+{
+    "username": "user",
+    "password": "user"
+}
+
+###
+# @name jwtdata
+GET http://localhost:8080/users/jwt-data
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL3N2ZTIuand0LmNvbS9pc3N1ZXIiLCJ1cG4iOiJVc2VyRmlyc3ROYW1lIFVzZXJMYXN0TmFtZSIsImdyb3VwcyI6WyJVc2VyIl0sImdpdmVuX25hbWUiOiJVc2VyRmlyc3ROYW1lIiwiZmFtaWx5X25hbWUiOiJVc2VyTGFzdE5hbWUiLCJpYXQiOjE2MTg2OTAzMzIsImV4cCI6MTYxODY5MDYzMiwianRpIjoiMGExOWU2OWUtZGMzYi00M2E4LWI3NzEtNWNhZjVjNjYxOWQ5In0.yVGVIdrliWbIGOnqmVZaC17kLLg_lVbIjy_cE-tbBURLU3Rf4tRliaFpC8Y3uDHRh1AolcTMRFeQJGOUJra_SKQDkRla7ChY3QHRyDn9SwSBrLLMTK3y2bI405gRa3fXiJMClCLrKnMnAan-lEILq6T1RcT7BlEh1DTVYnjOB-3AIMoBQtDCeliOB91ePhWwHE6hONKER4rMVVjA6NtdFJ0T6SsOs6kWdHJ2Zr8xd4lGugYf5LPvzi-H6zDaaRSf-By7CYqCmqJ93rnMQHZBMXER_wYd4YqYTX503zx21U2LgRoMy3NLPfSf0XI5COZJPjMCNgDuEJ1tLtrTT7_Ycg
+
+###
+GET http://localhost:8080/movies
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL3N2ZTIuand0LmNvbS9pc3N1ZXIiLCJ1cG4iOiJVc2VyRmlyc3ROYW1lIFVzZXJMYXN0TmFtZSIsImdyb3VwcyI6WyJVc2VyIl0sImdpdmVuX25hbWUiOiJVc2VyRmlyc3ROYW1lIiwiZmFtaWx5X25hbWUiOiJVc2VyTGFzdE5hbWUiLCJpYXQiOjE2MTg2OTAzMzIsImV4cCI6MTYxODY5MDYzMiwianRpIjoiMGExOWU2OWUtZGMzYi00M2E4LWI3NzEtNWNhZjVjNjYxOWQ5In0.yVGVIdrliWbIGOnqmVZaC17kLLg_lVbIjy_cE-tbBURLU3Rf4tRliaFpC8Y3uDHRh1AolcTMRFeQJGOUJra_SKQDkRla7ChY3QHRyDn9SwSBrLLMTK3y2bI405gRa3fXiJMClCLrKnMnAan-lEILq6T1RcT7BlEh1DTVYnjOB-3AIMoBQtDCeliOB91ePhWwHE6hONKER4rMVVjA6NtdFJ0T6SsOs6kWdHJ2Zr8xd4lGugYf5LPvzi-H6zDaaRSf-By7CYqCmqJ93rnMQHZBMXER_wYd4YqYTX503zx21U2LgRoMy3NLPfSf0XI5COZJPjMCNgDuEJ1tLtrTT7_Ycg
+
+###
+GET http://localhost:8080/movies/8
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL3N2ZTIuand0LmNvbS9pc3N1ZXIiLCJ1cG4iOiJVc2VyRmlyc3ROYW1lIFVzZXJMYXN0TmFtZSIsImdyb3VwcyI6WyJVc2VyIl0sImdpdmVuX25hbWUiOiJVc2VyRmlyc3ROYW1lIiwiZmFtaWx5X25hbWUiOiJVc2VyTGFzdE5hbWUiLCJpYXQiOjE2MTg2OTAzMzIsImV4cCI6MTYxODY5MDYzMiwianRpIjoiMGExOWU2OWUtZGMzYi00M2E4LWI3NzEtNWNhZjVjNjYxOWQ5In0.yVGVIdrliWbIGOnqmVZaC17kLLg_lVbIjy_cE-tbBURLU3Rf4tRliaFpC8Y3uDHRh1AolcTMRFeQJGOUJra_SKQDkRla7ChY3QHRyDn9SwSBrLLMTK3y2bI405gRa3fXiJMClCLrKnMnAan-lEILq6T1RcT7BlEh1DTVYnjOB-3AIMoBQtDCeliOB91ePhWwHE6hONKER4rMVVjA6NtdFJ0T6SsOs6kWdHJ2Zr8xd4lGugYf5LPvzi-H6zDaaRSf-By7CYqCmqJ93rnMQHZBMXER_wYd4YqYTX503zx21U2LgRoMy3NLPfSf0XI5COZJPjMCNgDuEJ1tLtrTT7_Ycg
+
+###
+# @name CreateNewMovie
+POST http://localhost:8080/movies
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL3N2ZTIuand0LmNvbS9pc3N1ZXIiLCJ1cG4iOiJVc2VyRmlyc3ROYW1lIFVzZXJMYXN0TmFtZSIsImdyb3VwcyI6WyJVc2VyIl0sImdpdmVuX25hbWUiOiJVc2VyRmlyc3ROYW1lIiwiZmFtaWx5X25hbWUiOiJVc2VyTGFzdE5hbWUiLCJpYXQiOjE2MTg2OTAzMzIsImV4cCI6MTYxODY5MDYzMiwianRpIjoiMGExOWU2OWUtZGMzYi00M2E4LWI3NzEtNWNhZjVjNjYxOWQ5In0.yVGVIdrliWbIGOnqmVZaC17kLLg_lVbIjy_cE-tbBURLU3Rf4tRliaFpC8Y3uDHRh1AolcTMRFeQJGOUJra_SKQDkRla7ChY3QHRyDn9SwSBrLLMTK3y2bI405gRa3fXiJMClCLrKnMnAan-lEILq6T1RcT7BlEh1DTVYnjOB-3AIMoBQtDCeliOB91ePhWwHE6hONKER4rMVVjA6NtdFJ0T6SsOs6kWdHJ2Zr8xd4lGugYf5LPvzi-H6zDaaRSf-By7CYqCmqJ93rnMQHZBMXER_wYd4YqYTX503zx21U2LgRoMy3NLPfSf0XI5COZJPjMCNgDuEJ1tLtrTT7_Ycg
+
+{
+    "name": "Moviename",
+    "releaseYear": "2000",
+    "rating": "10",
+    "productionCountry": "Austria",
+    "length": "111"
+}
+
+###
+# @name UpdateMovie
+PUT http://localhost:8080/movies/8
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL3N2ZTIuand0LmNvbS9pc3N1ZXIiLCJ1cG4iOiJVc2VyRmlyc3ROYW1lIFVzZXJMYXN0TmFtZSIsImdyb3VwcyI6WyJVc2VyIl0sImdpdmVuX25hbWUiOiJVc2VyRmlyc3ROYW1lIiwiZmFtaWx5X25hbWUiOiJVc2VyTGFzdE5hbWUiLCJpYXQiOjE2MTg2OTAzMzIsImV4cCI6MTYxODY5MDYzMiwianRpIjoiMGExOWU2OWUtZGMzYi00M2E4LWI3NzEtNWNhZjVjNjYxOWQ5In0.yVGVIdrliWbIGOnqmVZaC17kLLg_lVbIjy_cE-tbBURLU3Rf4tRliaFpC8Y3uDHRh1AolcTMRFeQJGOUJra_SKQDkRla7ChY3QHRyDn9SwSBrLLMTK3y2bI405gRa3fXiJMClCLrKnMnAan-lEILq6T1RcT7BlEh1DTVYnjOB-3AIMoBQtDCeliOB91ePhWwHE6hONKER4rMVVjA6NtdFJ0T6SsOs6kWdHJ2Zr8xd4lGugYf5LPvzi-H6zDaaRSf-By7CYqCmqJ93rnMQHZBMXER_wYd4YqYTX503zx21U2LgRoMy3NLPfSf0XI5COZJPjMCNgDuEJ1tLtrTT7_Ycg
+
+{
+    "name": "MovienameUpdated",
+    "releaseYear": "2222",
+    "rating": "8",
+    "productionCountry": "Germany",
+    "length": "222"
+}

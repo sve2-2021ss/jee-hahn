@@ -51,6 +51,12 @@ Content-Type: application/json
 @authToken = {{authenticate.response.body.token}}
 
 ###
+# @name jwtdata
+GET {{baseUrl}}/users/jwt-data
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
 GET {{baseUrl}}/movies
 Authorization: Bearer {{authToken}}
 

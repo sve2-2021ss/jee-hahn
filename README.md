@@ -115,11 +115,80 @@ Created user credentials:
 By passing user credentials (username + password) to the user/authenticate endpoint, a user can be authenticated and retrieves a signed JSON web token.
 This token can be used for requests to the "/movies" endpoint. The token must be set in the "authorization"-header with the format: "Bearer <token>".
 
+If no header is sent with the request on a secured endpoint, a status code 401 (Unauthorized) is returned
+```http
+HTTP/1.1 401 Unauthorized
+www-authenticate: Bearer {token}
+Content-Length: 0
+connection: close
+``` 
+
+If a authorization header is available, but the groups/role claims does not fulfill the requirements, a status code 403 (Forbidden) is returned
+```http
+HTTP/1.1 403 Forbidden
+Content-Length: 0
+connection: close
+```
+
 Read-operations on the "/movies"-endpoint requires the "user"-role/claim (GET /movies && GET /movies/{id})
 Write-operations on the "/movies"-endpoint requires the "admin"-role/claim (POST /movies && PUT /movies/{id})
 
 #### REST-Service:
 Contains the REST-endpoints, with business logic and databae access.
+
+The endpoint "/users/jwt-data" returns the claims of the currently passed JWT as showcase.
+The user-principal can be accessed through the SecurityContext and the jwt token can be injected in the endpoint for access to claims.
+
+Example of manual claims access:
+```java
+@Path("/users")
+@RequestScoped
+public class UserResource {
+
+    @Inject
+    UserLogic userLogic;
+
+    @Inject
+    JsonWebToken jwt;
+
+    @Claim(standard = Claims.groups)
+    String claimGroups;
+
+    @GET
+    @Path("/jwt-data")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getJwtData(@Context SecurityContext context) {
+        if (context.getUserPrincipal() == null) {
+            return "no jwt available";
+        }
+
+        if (jwt.getName() == null) {
+            return "no jwt available";
+        }
+
+        return String.format(
+                "has JWT: %s,\n" +
+                "user principal name: %s,\n" +
+                "user principal given name: %s,\n" +
+                "user principal family name: %s,\n" +
+                "user principal groups: %s",
+                jwt.getClaimNames() != null,
+                context.getUserPrincipal().getName(),
+                jwt.getClaim(Claims.given_name.toString()),
+                jwt.getClaim(Claims.family_name.toString()),
+                claimGroups);
+    }
+}
+```
+
+If a endpoint/action is decorated with the "@RolesAllowed" attribute, automatically the "groups"-claim of the JWT is checked for the specified roles.
+```java
+@GET
+@RolesAllowed({ "User" })
+public List<MovieModel> GetAll() {
+	return movieLogic.getAll();
+}
+```
 
 #### Database:
 
